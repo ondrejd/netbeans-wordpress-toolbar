@@ -24,7 +24,7 @@ import org.openide.util.NbBundle.Messages;
 )
 @ActionReference(
         path = "Toolbars/File",
-        position = 0
+        position = 5000
 )
 @Messages("CTL_ToolbarAction=WordPress")
 public final class Action extends AbstractAction implements Presenter.Toolbar {

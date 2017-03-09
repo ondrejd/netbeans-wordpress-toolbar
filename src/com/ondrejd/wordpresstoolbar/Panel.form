@@ -46,7 +46,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="com.ondrejd.wordpresstoolbar.controls.AutoCompleteTextField" name="jTextField1">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/ondrejd/wordpresstoolbar/Bundle.properties" key="Panel.jTextField1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
@@ -55,6 +55,10 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new AutoCompleteTextField()"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jTextField1.addData(loadAutoCompleteData());"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

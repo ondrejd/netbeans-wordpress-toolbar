@@ -5,12 +5,22 @@
  */
 package com.ondrejd.wordpresstoolbar;
 
+import com.ondrejd.wordpresstoolbar.controls.AutoCompleteTextField;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
- *
  * @author ondrejd
  */
 public class Panel extends javax.swing.JPanel {
@@ -32,11 +42,12 @@ public class Panel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextField1 = new AutoCompleteTextField();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(Panel.class, "Panel.jLabel1.text")); // NOI18N
 
         jTextField1.setText(org.openide.util.NbBundle.getMessage(Panel.class, "Panel.jTextField1.text")); // NOI18N
+        jTextField1.addData(loadAutoCompleteData());
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -68,16 +79,49 @@ public class Panel extends javax.swing.JPanel {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         try {
             String term = URLEncoder.encode(jTextField1.getText(), "UTF-8");
-            String url = "https://www.google.com/search?hl=en&q=" + term + "&btnG=Google+Search";
+            String url = "https://developer.wordpress.org/?s=" + term;
+
             URLDisplayer.getDefault().showURL(new URL(url));
         } catch (Exception ex) {
             return;
         }
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    /**
+     * @return Data for {@see AutoCompleteTextField}.
+     * @todo Loading of autocomplete data should be placed inside its own thread to protect time-wasting initialization. After loading of XML file is complete <code>jTextField1</code> will be enabled and user will be able to use the plugin.
+     */
+    private ArrayList<String> loadAutoCompleteData() {
+        ArrayList<String> data = new ArrayList<>();
+
+        //ParserConfigurationException, SAXException, IOException
+        try {
+            InputStream is = Panel.class.getResourceAsStream("wordpress-api.xml");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(is);
+
+            NodeList items = doc.getElementsByTagName("item");
+            for (int i = 0; i < items.getLength(); i++) {
+                Node item = items.item(i);
+                String name = item.getAttributes().getNamedItem("name").getNodeValue();
+                //String url = item.getAttributes().getNamedItem("url").getNodeValue();
+                //data.add(new AutoCompleteTextFieldItem(name, url);
+                data.add(name);
+            }
+        } catch (ParserConfigurationException pce) {
+            //...
+        } catch (SAXException se) {
+            //...
+        } catch (IOException ioe) {
+            //...
+        }
+
+        return data;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
+    private com.ondrejd.wordpresstoolbar.controls.AutoCompleteTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
