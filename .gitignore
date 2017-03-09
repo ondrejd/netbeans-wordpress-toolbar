@@ -17,3 +17,4 @@ nbproject/private
 # Freshly parsed wordpress-api.xml file
 utils/wordpress-api.xml
 
+/build/
