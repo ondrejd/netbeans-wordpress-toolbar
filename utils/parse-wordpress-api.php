@@ -136,19 +136,24 @@ class ReferenceParser {
      */
     private function parseArticle( $type, \DOMElement $article ) {
         try {
-            $name = trim( $article->getElementsByTagName( 'h1' )->item( 0 )->textContent );
+            $h1   = $article->getElementsByTagName( 'h1' )->item( 0 );
+            $anch = $h1->getElementsByTagName( 'a' )->item( 0 );
+            $name = trim( $h1->textContent );
             $desc = '';
+            $url  = $anch->getAttribute( 'href' );
+            /*
             $divs = $article->getElementsByTagName( 'div' );
-
             for ( $i = 0; $i < $divs->length; $i++ ) {
                 $div = $divs->item( $i );
 
                 if ( $div->getAttribute( 'class' ) == 'description' ) {
-                    $desc = trim( $div->textContent );
+                    $desc = htmlentities( trim( $div->textContent ) );
                 }
             }
 
-            $this->refs[$type][] = new ReferenceItem( $name, $desc );
+            $this->refs[$type][] = new ReferenceItem( $name, $desc, $url );
+            */
+            $this->refs[$type][] = new ReferenceItem( $name, '', $url );
         } catch ( \Exception $e ) {
             // ... nothing to do ...
         }
@@ -160,7 +165,7 @@ class ReferenceParser {
      */
     private function saveXml() {
         // Start XML
-        $xml  = '<?xml version="1.0" charset="utf-8"?>' . PHP_EOL;
+        $xml  = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
         $xml .= '<api datetime="' . date( 'Y-m-d H:i:s' ) . '">' . PHP_EOL;
 
         // Write all resources
@@ -187,24 +192,30 @@ class ReferenceParser {
  */
 class ReferenceItem {
     /**
-     * @var string Name of reference item.
+     * @var string Name of a reference item.
      */
     private $name;
 
     /**
-     * @var string Description of reference item.
+     * @var string Description of a reference item.
      */
     private $desc;
 
     /**
+     * @var string URL of a reference item.
+     */
+    private $url;
+
+    /**
      * Constructor.
-     * @param string $type
      * @param string $name
      * @param string $desc
+     * @param string $url
      */
-    public function __construct( $name = null, $desc = null ) {
+    public function __construct( $name = null, $desc = null, $url = null ) {
         $this->name = $name;
         $this->desc = $desc;
+        $this->url  = $url;
     }
 
     /**
@@ -235,11 +246,11 @@ class ReferenceItem {
      * @return string
      */
     public function __toString() {
-        if ( empty( $this->name ) ) {
+        if ( empty( $this->name ) || empty( $this->url ) ) {
             return '';
         }
 
-        $out  = "<item name=\"{$this->name}\"";
+        $out  = "<item name=\"{$this->name}\" url=\"{$this->url}\"";
         $out .= empty( $this->desc ) ? '' : " description=\"{$this->desc}\"";
         $out .= "/>";
 
@@ -249,13 +260,11 @@ class ReferenceItem {
 
 // ==========================================================================
 
-/**
- * Our parser.
- * @var Parser
- */
-$parser = new ReferenceParser();
+// Execute parser
+if ( PHP_SAPI == 'cli' ) {
+    $parser = new ReferenceParser();
 
-// Parse WordPress Code Reference
-if ( $parser->parse() === false ) {
-    printf( "Parsing failed!\n%s\n", $parser->lastError() );
+    if ( $parser->parse() === false ) {
+        printf( "Parsing failed!\n%s\n", $parser->lastError() );
+    }
 }
