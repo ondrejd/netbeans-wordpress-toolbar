@@ -8,7 +8,7 @@
  *   php parse-wordpress-api.php
  *
  * @author Ondřej Doněk, <ondrejd@gmail.com>
- * @package netbeans-wordpress-plugin
+ * @package netbeans-wordpress-toolbar
  */
 
 namespace com\ondrejd\WordPressToolbar;
