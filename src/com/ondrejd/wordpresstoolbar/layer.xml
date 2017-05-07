@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="QuickSearch">
+        <folder name="WordPressCodeReference">
+            <attr name="command" stringvalue="wp"/>
+            <attr name="position" intvalue="0"/>
+            <file name="com-ondrejd-wordpresstoolbar-QuickSearchProvider.instance">
+                <attr name="displayName" bundlevalue="com.ondrejd.wordpresstoolbar.Bundle#QuickSearch/WordPressCodeReference/com-ondrejd-wordpresstoolbar-QuickSearchProvider.instance"/>
+            </file>
+        </folder>
+    </folder>
+</filesystem>

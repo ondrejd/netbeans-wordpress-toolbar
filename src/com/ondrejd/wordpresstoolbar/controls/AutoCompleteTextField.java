@@ -134,7 +134,8 @@ public class AutoCompleteTextField extends JTextField implements KeyListener, Do
                 item = item.toLowerCase();
             }
 
-            if (item.startsWith(entered)) {
+            if (item.contains(entered)) {
+            //if (item.startsWith(entered)) {
                 this.currentGuess = i;
                 break;
             }
@@ -161,9 +162,10 @@ public class AutoCompleteTextField extends JTextField implements KeyListener, Do
             entered = entered.toLowerCase();
             guess = guess.toLowerCase();
         }
-        
-        if (!(guess.startsWith(entered)))
+
+        if (!(guess.startsWith(entered))) {
             this.areGuessing = false;
+        }
 
         if (entered != null && !(entered.equals("")) && this.areGuessing) {
             String subGuess = drawGuess.substring(entered.length(), drawGuess.length());

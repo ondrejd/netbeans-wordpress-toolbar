@@ -1,6 +1,8 @@
 Manifest-Version: 1.0
 AutoUpdate-Show-In-Client: true
 OpenIDE-Module: com.ondrejd.wordpresstoolbar
+OpenIDE-Module-Install: com/ondrejd/wordpresstoolbar/Installer.class
+OpenIDE-Module-Layer: com/ondrejd/wordpresstoolbar/layer.xml
 OpenIDE-Module-Localizing-Bundle: com/ondrejd/wordpresstoolbar/Bundle.properties
 OpenIDE-Module-Specification-Version: 1.0
 

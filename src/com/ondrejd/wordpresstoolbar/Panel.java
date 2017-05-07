@@ -106,8 +106,6 @@ public class Panel extends javax.swing.JPanel {
             for (int i = 0; i < items.getLength(); i++) {
                 Node item = items.item(i);
                 String name = item.getAttributes().getNamedItem("name").getNodeValue();
-                //String url = item.getAttributes().getNamedItem("url").getNodeValue();
-                //data.add(new AutoCompleteTextFieldItem(name, url);
                 data.add(name);
             }
         } catch (ParserConfigurationException pce) {
