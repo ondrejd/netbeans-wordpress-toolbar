@@ -3,8 +3,10 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
-*.jar
+# Package Files
+#*.jar
+ext/jsoup-1.10.3-javadoc.jar
+ext/jsoup-1.10.3-sources.jar
 *.war
 *.ear
 
@@ -19,6 +21,7 @@ utils/wordpress-api.xml
 
 /build/
 
+# Builded MarkDown files
 README.html
 TODO.html
 
